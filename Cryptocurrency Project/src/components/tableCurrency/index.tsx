@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
 import * as S from "./style";
+import { useLoading } from "../../context/loading/loadingContext";
 
 interface CoinProps {
   name: string;
@@ -21,14 +21,16 @@ interface DataProps {
 
 export const TableCurrency = () => {
   const [coins, setCoins] = useState<CoinProps[]>([]);
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null);
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     function getData() {
+      setLoading(true)
       fetch("https://sujeitoprogramador.com/api-cripto/?key=3f7b6e5897e7211f")
         .then((response) => response.json())
         .then((data: DataProps) => {
-          let coinsData = data.coins.slice(0, 10);
+          let coinsData = data.coins.slice(0, 1);
 
           let price = Intl.NumberFormat("en-US", {
             style: "currency",
@@ -50,14 +52,20 @@ export const TableCurrency = () => {
         })
         .catch((error) => {
           setError(error.message);
+        }).finally(() => {
+          setLoading(false);
         })
     }
 
     getData();
   }, []);
 
-  if(error) {
-    return <S.CatchError> Sorry! Request limit exhausted, try in an hour! </S.CatchError>
+  if (error) {
+    return (
+      <S.CatchError>
+        <p>Sorry! Request limit exhausted, try in an hour!</p>
+      </S.CatchError>
+    );
   }
 
   return (

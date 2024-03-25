@@ -1,0 +1,28 @@
+import React, { createContext, useContext, useState, Dispatch, SetStateAction } from 'react';
+
+type LoadingProviderProps = {
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+const defaultLoadingContextValue: LoadingProviderProps = {
+  loading: false,
+  setLoading: () => {},
+};
+
+const LoadingContext = createContext<LoadingProviderProps>(defaultLoadingContextValue);
+
+export function LoadingProvider({ children }: { children: React.ReactNode}) {
+  const [loading, setLoading] = useState<boolean>(true);
+
+  return (
+    <LoadingContext.Provider value={{ loading, setLoading }}>
+      {children}
+    </LoadingContext.Provider>
+  );
+}
+
+export function useLoading() {
+  const context = useContext(LoadingContext) ?? defaultLoadingContextValue;
+  return context;
+}

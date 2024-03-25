@@ -1,10 +1,12 @@
-import { RouterProvider } from "react-router-dom"
-import { router } from "./routes"
+import { LoadingProvider } from "./context/loading/loadingContext"
+import RoutesComponent from "./routes"
 
 function App() {
 
   return (
-      <RouterProvider router={router}/>
+    <LoadingProvider>
+      <RoutesComponent/>
+    </LoadingProvider>
     )
 }
 
