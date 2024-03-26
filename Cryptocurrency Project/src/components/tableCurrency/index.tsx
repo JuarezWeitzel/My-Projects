@@ -30,7 +30,7 @@ export const TableCurrency = () => {
       fetch("https://sujeitoprogramador.com/api-cripto/?key=3f7b6e5897e7211f")
         .then((response) => response.json())
         .then((data: DataProps) => {
-          let coinsData = data.coins.slice(0, 1);
+          let coinsData = data.coins.slice(0, 10);
 
           let price = Intl.NumberFormat("en-US", {
             style: "currency",

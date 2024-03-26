@@ -13,7 +13,7 @@ const defaultLoadingContextValue: LoadingProviderProps = {
 const LoadingContext = createContext<LoadingProviderProps>(defaultLoadingContextValue);
 
 export function LoadingProvider({ children }: { children: React.ReactNode}) {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <LoadingContext.Provider value={{ loading, setLoading }}>
@@ -23,6 +23,7 @@ export function LoadingProvider({ children }: { children: React.ReactNode}) {
 }
 
 export function useLoading() {
-  const context = useContext(LoadingContext) ?? defaultLoadingContextValue;
+  const context = useContext(LoadingContext)
+  if(!context) throw new Error("Error when using useLoading!");
   return context;
 }

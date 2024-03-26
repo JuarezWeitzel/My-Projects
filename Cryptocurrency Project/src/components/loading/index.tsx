@@ -3,7 +3,6 @@ import * as S from './style';
 
 export const Loading = () => {
     const { loading } = useLoading();
-    debugger
     return(
         (loading && loading === true ?
             (
